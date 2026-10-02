@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "codex-instruction-lens"
+version = "0.1.0"
+description = "Explain Codex project instruction discovery, precedence, and byte budgets"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "Cerallin9029"}]
+dependencies = []
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Programming Language :: Python :: 3",
+  "Topic :: Software Development",
+]
+
+[project.scripts]
+codex-instruction-lens = "instruction_lens.cli:main"
+
+[project.urls]
+Repository = "https://github.com/Cerallin9029/One"
+Issues = "https://github.com/Cerallin9029/One/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
