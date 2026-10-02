@@ -5,7 +5,14 @@
 
 ## 安装和演示
 
-在源码目录运行（仓库尚未公开时需要访问权限；目前未发布到 PyPI）：
+仓库现已公开，可以直接安装固定版本的源码（目前未发布到 PyPI）：
+
+```sh
+python -m pip install "git+https://github.com/Cerallin9029/One.git@v0.1.0"
+codex-instruction-lens --version
+```
+
+也可以克隆仓库后在源码目录运行：
 
 ```sh
 python -m pip install .
