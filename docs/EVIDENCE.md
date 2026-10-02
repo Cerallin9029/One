@@ -1,6 +1,6 @@
 # Evidence ledger
 
-Updated: 2026-10-02 (Asia/Shanghai). Record verifiable facts with links and dates.
+Updated: 2026-10-03 (Asia/Shanghai). Record verifiable facts with links and dates.
 Do not count author tests as external adoption or this plan as completed maintenance.
 
 | Category | Verified state | Evidence |
@@ -18,9 +18,9 @@ Do not count author tests as external adoption or this plan as completed mainten
 | Application | Not submitted | Official live form and terms still require direct verification |
 
 Next publication/official-verification work: [maintainer planning issue #2](https://github.com/Cerallin9029/One/issues/2).
-Automated continuation was successfully scheduled for Sunday evenings in Asia/Shanghai,
-starting 2026-10-04 and running for 12 occurrences. A scheduled task is not evidence that
-future work or external adoption has already happened.
+On 2026-10-03 the maintainer requested manual, irregular continuation. The previously created
+scheduled task was disabled. Future project work starts when the maintainer requests it;
+the 12-week roadmap is a reference for stages, not an automatic execution schedule.
 
 Implementation and initial tests were built with Codex at the maintainer's request.
 The maintainer has not yet independently reviewed the first implementation.

@@ -8,7 +8,8 @@ Install with `python -m pip install -e .`. Validate substantive changes with
 `python -m unittest discover -s tests -v`, `python -m ruff check .` and
 `python -m ruff format --check .`. Use synthetic fixtures, never private user instructions.
 
-Follow `docs/OSS_PLAN.zh-CN.md` for long-term priorities. Keep `docs/EVIDENCE.md` factual:
+Follow `docs/OSS_PLAN.zh-CN.md` for long-term priorities. The user initiates advancement
+manually. Do not create or resume scheduled continuation tasks. Keep `docs/EVIDENCE.md` factual:
 author tests, public releases and genuine external use are distinct. Do not create activity
 solely to increase commit, issue, star or release counts. Application terms need a fresh
 official read before submission; do not copy personal form fields into repository files.
