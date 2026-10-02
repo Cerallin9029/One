@@ -19,8 +19,9 @@ This alpha models one project's documents with explicit settings and a pinned up
 It does not inspect running sessions, Codex config layers or account/global instructions.
 See `docs/COMPATIBILITY.md` for behavior boundaries and symlink/metadata differences.
 
-Publication checklist: verify public repository visibility, tag the tested source, create the
-GitHub Release, and test anonymous source installation. The package is not on PyPI.
+Repository visibility is now public and verified. The `v0.1.0` tag exists, and installing
+that tagged source in a fresh virtual environment succeeds. A GitHub Release has not yet
+been created. The package is not on PyPI.
 
 ## Release workflow
 
