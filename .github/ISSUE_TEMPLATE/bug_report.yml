@@ -1,0 +1,23 @@
+name: Bug report
+description: Report a reproducible instruction selection or CLI problem
+body:
+  - type: input
+    id: versions
+    attributes:
+      label: Lens, Python and Codex versions
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Include directory layout, command, explicit settings and expected result. Use synthetic instructions; remove private content and personal paths.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+      description: Paste a redacted report. Default reports contain local paths even when instruction bodies are hidden.
+    validations:
+      required: true
