@@ -19,7 +19,13 @@ python -m pip install .
 codex-instruction-lens .
 ```
 
-The repository is initially private; cloning requires access until public publication is complete.
+The repository is public. To install the tagged source directly:
+
+```sh
+python -m pip install "git+https://github.com/Cerallin9029/One.git@v0.1.0"
+codex-instruction-lens --version
+```
+
 The package has not been published to PyPI. Install from a checkout, not by package name alone.
 
 Reproduce nested instructions using the bundled synthetic example:

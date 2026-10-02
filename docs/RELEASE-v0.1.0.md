@@ -19,5 +19,21 @@ This alpha models one project's documents with explicit settings and a pinned up
 It does not inspect running sessions, Codex config layers or account/global instructions.
 See `docs/COMPATIBILITY.md` for behavior boundaries and symlink/metadata differences.
 
-Publication checklist: verify public repository visibility, tag the tested source, create the
-GitHub Release, and test anonymous source installation. The package is not on PyPI.
+Repository visibility is now public and verified. The `v0.1.0` tag exists, and installing
+that tagged source in a fresh virtual environment succeeds. A GitHub Release has not yet
+been created. The package is not on PyPI.
+
+## Release workflow
+
+`.github/workflows/release.yml` builds a version tag, checks that it matches package metadata,
+runs regressions and lint, tests the built wheel, and attaches a wheel, source archive and
+SHA-256 checksums to a GitHub Release. Publication happens after all assets upload; failed
+uploads leave a draft that can be retried. A published release is left unchanged on reruns.
+
+Future stable `vMAJOR.MINOR.PATCH` tag pushes trigger this workflow. For the existing `v0.1.0`
+tag (created before the workflow existed), run the Release workflow manually from the
+repository's Actions tab after this workflow is merged into main. Select `main` as the
+workflow branch and `v0.1.0` as the tag input. The workflow checks out the tag's exact source.
+
+The release workflow has not yet run. A private repository's release remains accessible only
+to people with repository access; release creation does not make the repository public.

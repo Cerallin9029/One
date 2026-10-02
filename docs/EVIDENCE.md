@@ -1,6 +1,6 @@
 # Evidence ledger
 
-Updated: 2026-10-02 (Asia/Shanghai). Record verifiable facts with links and dates.
+Updated: 2026-10-03 (Asia/Shanghai). Record verifiable facts with links and dates.
 Do not count author tests as external adoption or this plan as completed maintenance.
 
 | Category | Verified state | Evidence |
@@ -11,16 +11,17 @@ Do not count author tests as external adoption or this plan as completed mainten
 | First implementation | Source version 0.1.0 integrated into main | [Merged PR #1](https://github.com/Cerallin9029/One/pull/1), merge commit `50a0482aca87a095bcece29a5c0182ffe435fe48` |
 | Local validation | 20 regression tests passed on Linux / Python 3.12; lint and formatting passed; source and wheel built | `python -m unittest discover -s tests -v`, `python -m ruff check .`, `python -m ruff format --check .`, `python -m build` |
 | Remote CI | All four jobs passed: Linux Python 3.11/3.13, macOS Python 3.12, Windows Python 3.12 | [CI run for PR #1](https://github.com/Cerallin9029/One/actions/runs/37030452457) at source commit `cd6a17f3eb5ec2cc15ec4f4850e9ce37cf13d399` |
-| Public project | Not yet: repository is private | Verify visibility before claiming public OSS |
+| Public project | Repository is public, verified on 2026-10-03 | [Repository](https://github.com/Cerallin9029/One), GitHub API returned `private: false`, `visibility: public` |
+| Tagged source installation | `v0.1.0` installed from GitHub into a fresh virtual environment; CLI returned `0.1.0` on 2026-10-03 | `python -m pip install git+https://github.com/Cerallin9029/One.git@v0.1.0`, `codex-instruction-lens --version` |
 | GitHub Release | None | Do not equate package version with a published release |
 | PyPI | Not published | No download statistics |
 | External users/feedback | None observed or claimed | Add genuine attributable evidence when available |
 | Application | Not submitted | Official live form and terms still require direct verification |
 
 Next publication/official-verification work: [maintainer planning issue #2](https://github.com/Cerallin9029/One/issues/2).
-Automated continuation was successfully scheduled for Sunday evenings in Asia/Shanghai,
-starting 2026-10-04 and running for 12 occurrences. A scheduled task is not evidence that
-future work or external adoption has already happened.
+On 2026-10-03 the maintainer requested manual, irregular continuation. The previously created
+scheduled task was disabled. Future project work starts when the maintainer requests it;
+the 12-week roadmap is a reference for stages, not an automatic execution schedule.
 
 Implementation and initial tests were built with Codex at the maintainer's request.
 The maintainer has not yet independently reviewed the first implementation.
