@@ -22,7 +22,7 @@ codex-instruction-lens .
 The repository is public. To install the tagged source directly:
 
 ```sh
-python -m pip install "git+https://github.com/Cerallin9029/One.git@v0.1.0"
+python -m pip install "git+https://github.com/Cerallin9029/One.git@v0.1.1"
 codex-instruction-lens --version
 ```
 
@@ -50,7 +50,7 @@ codex-instruction-lens . --max-bytes 16384 --fallback-file TEAM.md
 # Show selected project text explicitly (JSON escaped)
 codex-instruction-lens . --show-text
 
-# Fail CI on empty selected files, truncation, skipped files or external symlink targets
+# Fail CI on empty files, truncation, skipped files, external symlinks or probe warnings
 codex-instruction-lens . --fail-on-warning
 
 # Simulate an untrusted project, or disable ancestor traversal
@@ -70,7 +70,8 @@ are decoded with replacement, matching the referenced upstream single-environmen
 Separators between files do not consume that budget.
 
 JSON output has `schema_version: 1`, a pinned upstream reference, inputs, searched directories,
-selected sources, shadowed paths, byte counts and status. `--show-text` adds source bodies and
+selected sources, shadowed paths, byte counts, status and `probe_errors` warnings for lower-priority
+paths that could not be inspected. `--show-text` adds source bodies and
 `combined_text`. Exit codes: `0` completed, `1` warnings with `--fail-on-warning`, `2` invalid
 input or filesystem error. Warnings are inspection findings, not proof of incorrect instructions.
 
@@ -87,6 +88,9 @@ instruction files are followed, as in upstream; targets outside the root are rep
 
 Compatibility is tied to a source snapshot, not every Codex version. See the
 [compatibility record](docs/COMPATIBILITY.md) for source links and inspection differences.
+
+Maintainer validation against three pinned public repository snapshots is documented in
+[the validation report](docs/VALIDATION.md). These checks are not external adoption evidence.
 
 ## Development
 

@@ -35,13 +35,23 @@ the same directory's ordinary `AGENTS.md`. Separators are added after loading.
 - Invalid fallback names are rejected with exit 2 instead of silently ignored. Validation follows
   native path conventions: slash/NUL and dot names are invalid everywhere; Windows also rejects
   backslash/colon. Lens also requires simple native filenames for root markers.
-- Lens only opens the selected file up to its remaining byte budget, rather than reading the
-  full file before truncation. Files should remain stable during inspection; concurrent edits
-  can make size counts inconsistent. Metadata failures on shadowed files can prevent a report.
-- Python's Unicode whitespace classification may differ from Rust's for unusual control
-  characters. This version does not promise byte-for-byte parity for every possible input.
+- Lens only opens the selected file up to its remaining byte budget in bounded chunks, rather
+  than reading the full file before truncation. Files should remain stable during inspection;
+  concurrent edits can make size counts inconsistent.
+- Discovery still inspects lower-priority candidates for diagnostics. Failures after selecting
+  a valid source are recorded in its `probe_errors` warning list; failures before selection
+  remain errors. This preserves the winning source even when a shadowed path is inaccessible.
+- Whitespace-only detection uses Unicode White_Space, matching Rust's `str::trim()` rather than
+  Python's broader whitespace classification. U+001C–U+001F remain content and consume budget.
 - No actual Codex binary integration test has run yet. Tests verify the documented rules
   with synthetic cases; they do not establish compatibility with every release or platform.
 
 Any change to selection or budget semantics must update this record and add a focused regression.
 Future parity work should pin a Codex release and compare its loader against the same fixtures.
+
+## 0.1.1 corrections
+
+Reproductions found in maintainer review showed that v0.1.0 could overflow on a byte budget
+above the native signed integer size, discard separator control characters as whitespace,
+or fail on a shadowed self-referencing symlink despite a valid override. Focused regressions
+now cover each case, including the distinction between selected and shadowed metadata errors.

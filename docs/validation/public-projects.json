@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "validation_kind": "maintainer-run public-repository fixtures",
+  "cli_version": "codex-instruction-lens 0.1.1",
+  "actual_codex_binary_parity_verified": false,
+  "external_adoption_claimed": false,
+  "projects": [
+    {
+      "repository": "agentsmd/agents.md",
+      "commit": "d001185d792eb6402a58e4cbef1c228b309ec25d",
+      "cwd": ".",
+      "working_files_match_pinned_git_blobs": true,
+      "runs": [
+        {
+          "budget_mode": "default",
+          "max_bytes": 32768,
+          "consumed_bytes": 2031,
+          "cli_exit_code": 0,
+          "selection_and_byte_counts_verified": true,
+          "loader_reference_sha": "4cedd0caac89f9fdcb5ad385e8093da5363d91c2",
+          "searched_directories": [
+            "."
+          ],
+          "sources": [
+            {
+              "path": "AGENTS.md",
+              "total_bytes": 2031,
+              "read_bytes": 2031,
+              "status": "loaded",
+              "shadowed": [],
+              "outside_root": false,
+              "probe_errors": [],
+              "git_blob_sha": "3cf929b91208081e40df9dec3835e4ff54bf4dc4",
+              "blob_url": "https://github.com/agentsmd/agents.md/blob/d001185d792eb6402a58e4cbef1c228b309ec25d/AGENTS.md"
+            }
+          ]
+        },
+        {
+          "budget_mode": "constrained",
+          "max_bytes": 128,
+          "consumed_bytes": 128,
+          "cli_exit_code": 0,
+          "selection_and_byte_counts_verified": true,
+          "loader_reference_sha": "4cedd0caac89f9fdcb5ad385e8093da5363d91c2",
+          "searched_directories": [
+            "."
+          ],
+          "sources": [
+            {
+              "path": "AGENTS.md",
+              "total_bytes": 2031,
+              "read_bytes": 128,
+              "status": "truncated",
+              "shadowed": [],
+              "outside_root": false,
+              "probe_errors": [],
+              "git_blob_sha": "3cf929b91208081e40df9dec3835e4ff54bf4dc4",
+              "blob_url": "https://github.com/agentsmd/agents.md/blob/d001185d792eb6402a58e4cbef1c228b309ec25d/AGENTS.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "astral-sh/uv",
+      "commit": "ba5833f0988962079e75894490f576c7f8cccf49",
+      "cwd": ".",
+      "working_files_match_pinned_git_blobs": true,
+      "runs": [
+        {
+          "budget_mode": "default",
+          "max_bytes": 32768,
+          "consumed_bytes": 2432,
+          "cli_exit_code": 0,
+          "selection_and_byte_counts_verified": true,
+          "loader_reference_sha": "4cedd0caac89f9fdcb5ad385e8093da5363d91c2",
+          "searched_directories": [
+            "."
+          ],
+          "sources": [
+            {
+              "path": "AGENTS.md",
+              "total_bytes": 2432,
+              "read_bytes": 2432,
+              "status": "loaded",
+              "shadowed": [],
+              "outside_root": false,
+              "probe_errors": [],
+              "git_blob_sha": "2e004996f256190afd4d6726a5f99f79668a27b5",
+              "blob_url": "https://github.com/astral-sh/uv/blob/ba5833f0988962079e75894490f576c7f8cccf49/AGENTS.md"
+            }
+          ]
+        },
+        {
+          "budget_mode": "constrained",
+          "max_bytes": 128,
+          "consumed_bytes": 128,
+          "cli_exit_code": 0,
+          "selection_and_byte_counts_verified": true,
+          "loader_reference_sha": "4cedd0caac89f9fdcb5ad385e8093da5363d91c2",
+          "searched_directories": [
+            "."
+          ],
+          "sources": [
+            {
+              "path": "AGENTS.md",
+              "total_bytes": 2432,
+              "read_bytes": 128,
+              "status": "truncated",
+              "shadowed": [],
+              "outside_root": false,
+              "probe_errors": [],
+              "git_blob_sha": "2e004996f256190afd4d6726a5f99f79668a27b5",
+              "blob_url": "https://github.com/astral-sh/uv/blob/ba5833f0988962079e75894490f576c7f8cccf49/AGENTS.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "repository": "openai/codex",
+      "commit": "8f7a0f7a878199c6886600370e5be6bd37ca38a3",
+      "cwd": "codex-rs/tui/src/bottom_pane",
+      "working_files_match_pinned_git_blobs": true,
+      "runs": [
+        {
+          "budget_mode": "default",
+          "max_bytes": 32768,
+          "consumed_bytes": 564,
+          "cli_exit_code": 0,
+          "selection_and_byte_counts_verified": true,
+          "loader_reference_sha": "4cedd0caac89f9fdcb5ad385e8093da5363d91c2",
+          "searched_directories": [
+            ".",
+            "codex-rs",
+            "codex-rs/tui",
+            "codex-rs/tui/src",
+            "codex-rs/tui/src/bottom_pane"
+          ],
+          "sources": [
+            {
+              "path": "codex-rs/tui/src/bottom_pane/AGENTS.md",
+              "total_bytes": 564,
+              "read_bytes": 564,
+              "status": "loaded",
+              "shadowed": [],
+              "outside_root": false,
+              "probe_errors": [],
+              "git_blob_sha": "b07fa2eca8d566939def6860774eb3237f6fdc1a",
+              "blob_url": "https://github.com/openai/codex/blob/8f7a0f7a878199c6886600370e5be6bd37ca38a3/codex-rs/tui/src/bottom_pane/AGENTS.md"
+            }
+          ]
+        },
+        {
+          "budget_mode": "constrained",
+          "max_bytes": 128,
+          "consumed_bytes": 128,
+          "cli_exit_code": 0,
+          "selection_and_byte_counts_verified": true,
+          "loader_reference_sha": "4cedd0caac89f9fdcb5ad385e8093da5363d91c2",
+          "searched_directories": [
+            ".",
+            "codex-rs",
+            "codex-rs/tui",
+            "codex-rs/tui/src",
+            "codex-rs/tui/src/bottom_pane"
+          ],
+          "sources": [
+            {
+              "path": "codex-rs/tui/src/bottom_pane/AGENTS.md",
+              "total_bytes": 564,
+              "read_bytes": 128,
+              "status": "truncated",
+              "shadowed": [],
+              "outside_root": false,
+              "probe_errors": [],
+              "git_blob_sha": "b07fa2eca8d566939def6860774eb3237f6fdc1a",
+              "blob_url": "https://github.com/openai/codex/blob/8f7a0f7a878199c6886600370e5be6bd37ca38a3/codex-rs/tui/src/bottom_pane/AGENTS.md"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -13,6 +13,14 @@ from pathlib import Path
 
 REFERENCE_SHA = "4cedd0caac89f9fdcb5ad385e8093da5363d91c2"
 DEFAULT_MAX_BYTES = 32768
+# Unicode White_Space, as used by Rust str::trim(). Python str.strip() additionally
+# treats U+001C..U+001F as whitespace, which would change loaded text and byte budgets.
+_INSTRUCTION_WHITESPACE = (
+    "\u0009\u000a\u000b\u000c\u000d\u0020\u0085\u00a0\u1680"
+    "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a"
+    "\u2028\u2029\u202f\u205f\u3000"
+)
+_READ_CHUNK_BYTES = 64 * 1024
 
 
 @dataclass(frozen=True)
@@ -24,6 +32,7 @@ class Source:
     shadowed: list[str]
     outside_root: bool
     text: str = field(repr=False)
+    probe_errors: list[str] = field(default_factory=list)
 
 
 @dataclass(frozen=True)
@@ -57,7 +66,7 @@ class Report:
     @property
     def has_warnings(self) -> bool:
         return any(
-            s.status in {"empty", "truncated", "skipped-budget"} or s.outside_root
+            s.status in {"empty", "truncated", "skipped-budget"} or s.outside_root or s.probe_errors
             for s in self.sources
         )
 
@@ -95,6 +104,36 @@ def _root_for(cwd: Path, markers: list[str]) -> tuple[Path, str]:
     return cwd, "no root marker found; cwd only"
 
 
+def _candidates(directory: Path, names: list[str]) -> tuple[list[Path], list[str]]:
+    selected: list[Path] = []
+    errors: list[str] = []
+    for name in names:
+        candidate = directory / name
+        try:
+            if _is_file(candidate):
+                selected.append(candidate)
+        except OSError as error:
+            if not selected:
+                # A failure before selection can change the winning file, so preserve
+                # the upstream failure instead of silently choosing a lower priority.
+                raise
+            errors.append(f"{candidate}: {error.strerror or type(error).__name__}")
+    return selected, errors
+
+
+def _read_prefix(stream, max_bytes: int) -> bytearray:
+    # Python accepts arbitrarily large integers, but read(size) takes a native
+    # signed integer. Bounded reads also avoid allocating an enormous buffer for
+    # a small file when an oversized budget is supplied.
+    data = bytearray()
+    while len(data) < max_bytes:
+        chunk = stream.read(min(max_bytes - len(data), _READ_CHUNK_BYTES))
+        if not chunk:
+            break
+        data.extend(chunk)
+    return data
+
+
 def inspect(
     cwd: Path,
     *,
@@ -127,7 +166,7 @@ def inspect(
     remaining = max_bytes
     if trusted:
         for directory in directories:
-            candidates = [directory / name for name in names if _is_file(directory / name)]
+            candidates, probe_errors = _candidates(directory, names)
             if not candidates:
                 continue
             chosen, *shadowed = candidates
@@ -140,9 +179,9 @@ def inspect(
             else:
                 with chosen.open("rb") as stream:
                     total = os.fstat(stream.fileno()).st_size
-                    data = stream.read(remaining)
+                    data = _read_prefix(stream, remaining)
                 text = data.decode("utf-8", errors="replace")
-                if not text.strip():
+                if not text.strip(_INSTRUCTION_WHITESPACE):
                     status = "empty"
                 else:
                     status = "truncated" if total > len(data) else "loaded"
@@ -156,6 +195,7 @@ def inspect(
                     [str(path) for path in shadowed],
                     outside_root,
                     text,
+                    probe_errors,
                 )
             )
     return Report(

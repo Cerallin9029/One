@@ -75,6 +75,8 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"    shadowed: {safe(path)}")
             if source.outside_root:
                 print("    warning: symlink target is outside project root")
+            for error in source.probe_errors:
+                print(f"    warning: could not inspect shadowed candidate: {safe(error)}")
         if args.show_text:
             print("\nCombined project text (JSON escaped):")
             print(safe(report.combined_text))
