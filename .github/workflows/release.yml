@@ -90,11 +90,22 @@ jobs:
               core.notice(`${tag} is already published; leaving it unchanged.`);
               return;
             }
+            const changelog = fs.readFileSync('CHANGELOG.md', 'utf8').split('\n');
+            const heading = changelog.findIndex(line => line.startsWith(`## ${tag.slice(1)} `));
+            const changes = [];
+            if (heading !== -1) {
+              for (const line of changelog.slice(heading + 1)) {
+                if (line.startsWith('## ')) break;
+                changes.push(line);
+              }
+            }
+            const summary = changes.join('\n').trim();
             if (!release) {
               release = (await github.rest.repos.createRelease({
                 owner, repo, tag_name: tag, name: `Codex Instruction Lens ${tag}`,
                 draft: true, prerelease: false,
-                body: 'Explain Codex project instruction selection, overrides and byte budgets.\n\n'
+                body: (summary ? summary + '\n\n' : '')
+                  + 'Explain Codex project instruction selection, overrides and byte budgets.\n\n'
                   + 'Requires Python 3.11+. Install the attached wheel with `python -m pip install FILE.whl`, '
                   + 'then run `codex-instruction-lens .`. No runtime dependencies or model API calls.\n\n'
                   + 'Includes a source archive and SHA-256 checksums. This alpha models project documents '

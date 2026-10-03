@@ -8,7 +8,7 @@
 仓库现已公开，可以直接安装固定版本的源码（目前未发布到 PyPI）：
 
 ```sh
-python -m pip install "git+https://github.com/Cerallin9029/One.git@v0.1.0"
+python -m pip install "git+https://github.com/Cerallin9029/One.git@v0.1.1"
 codex-instruction-lens --version
 ```
 
@@ -46,6 +46,10 @@ codex-instruction-lens . --fail-on-warning
 `--untrusted` 模拟跳过不受信任项目的指令。
 
 退出码：完成为 0；启用 `--fail-on-warning` 且有警告时为 1；参数或文件错误为 2。
+有效文件已经选中后，无法检查的低优先级候选文件会记录为 `probe_errors` 警告，
+不阻止该文件的加载；选中前的访问错误仍会中断报告。
+
+三个固定版本开源仓库的维护者自测记录见 [验证报告](VALIDATION.md)。
 
 ## 当前范围
 

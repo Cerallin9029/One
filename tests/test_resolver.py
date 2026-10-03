@@ -114,6 +114,31 @@ class ResolverTests(unittest.TestCase):
         self.assertEqual(zero.sources[0].status, "skipped-budget")
         self.assertEqual(zero.combined_text, "")
 
+    def test_control_separators_are_content_in_rust_whitespace_rules(self):
+        for character in ("\x1c", "\x1d", "\x1e", "\x1f"):
+            with self.subTest(character=repr(character)):
+                self.write(self.root, "AGENTS.md", character)
+                self.write(self.cwd, "AGENTS.md", "XYZ")
+                report = inspect(self.cwd, max_bytes=2)
+                self.assertEqual(report.combined_text, f"{character}\n\nX")
+                self.assertEqual(report.sources[0].status, "loaded")
+                self.assertEqual(report.consumed_bytes, 2)
+
+    def test_unicode_whitespace_still_does_not_spend_budget(self):
+        self.write(self.root, "AGENTS.md", "\u3000\u00a0")
+        self.write(self.cwd, "AGENTS.md", "XYZ")
+        report = inspect(self.cwd, max_bytes=5)
+        self.assertEqual(report.combined_text, "XYZ")
+        self.assertEqual(report.sources[0].status, "empty")
+        self.assertEqual(report.consumed_bytes, 3)
+
+    def test_large_file_is_read_across_bounded_chunks(self):
+        content = "x" * 70000
+        self.write(self.cwd, "AGENTS.md", content)
+        report = inspect(self.cwd, max_bytes=65537)
+        self.assertEqual(len(report.combined_text), 65537)
+        self.assertEqual(report.sources[0].status, "truncated")
+
     def test_untrusted_mode_never_reads_project_documents(self):
         self.write(self.cwd, "AGENTS.md", "project text")
         with patch.object(Path, "open", side_effect=AssertionError("unexpected read")):
@@ -161,6 +186,48 @@ class ResolverTests(unittest.TestCase):
             with self.assertRaises(PermissionError):
                 inspect(self.cwd)
 
+    def test_shadowed_metadata_error_is_a_warning_after_valid_selection(self):
+        self.write(self.cwd, "AGENTS.override.md", "override")
+        standard = self.write(self.cwd, "AGENTS.md", "standard")
+        original = Path.stat
+
+        def probe(path, *args, **kwargs):
+            if path == standard:
+                raise PermissionError(13, "permission denied", str(path))
+            return original(path, *args, **kwargs)
+
+        with patch.object(Path, "stat", probe):
+            report = inspect(self.cwd)
+        self.assertEqual(report.combined_text, "override")
+        self.assertEqual(len(report.sources[0].probe_errors), 1)
+        self.assertTrue(report.has_warnings)
+
+    def test_preferred_metadata_error_does_not_choose_standard(self):
+        override = self.write(self.cwd, "AGENTS.override.md", "override")
+        self.write(self.cwd, "AGENTS.md", "standard")
+        original = Path.stat
+
+        def probe(path, *args, **kwargs):
+            if path == override:
+                raise PermissionError(13, "permission denied", str(path))
+            return original(path, *args, **kwargs)
+
+        with patch.object(Path, "stat", probe):
+            with self.assertRaises(PermissionError):
+                inspect(self.cwd)
+
+    def test_shadowed_symlink_loop_does_not_prevent_loading_override(self):
+        self.write(self.cwd, "AGENTS.override.md", "override")
+        loop = self.cwd / "AGENTS.md"
+        try:
+            loop.symlink_to(loop)
+        except OSError as error:
+            self.skipTest(f"symlink unavailable: {error}")
+        report = inspect(self.cwd)
+        self.assertEqual(report.combined_text, "override")
+        self.assertEqual(len(report.sources[0].probe_errors), 1)
+        self.assertTrue(report.has_warnings)
+
     def cli(self, *args):
         # Use the installed module so packaging and CLI behavior are tested together.
         return subprocess.run(
@@ -182,6 +249,14 @@ class ResolverTests(unittest.TestCase):
         result = self.cli("--max-bytes", "-1", "--json")
         self.assertEqual(result.returncode, 2)
         self.assertIn("error", json.loads(result.stdout))
+
+    def test_cli_oversized_budget_loads_small_file_without_overflow(self):
+        self.write(self.cwd, "AGENTS.md", "small file")
+        result = self.cli("--max-bytes", "9223372036854775808", "--json")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        report = json.loads(result.stdout)
+        self.assertEqual(report["consumed_bytes"], 10)
+        self.assertEqual(report["sources"][0]["status"], "loaded")
 
     def test_cli_text_view_escapes_terminal_controls(self):
         self.write(self.cwd, "AGENTS.md", "hello\x1b[31m")
